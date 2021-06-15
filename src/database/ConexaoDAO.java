@@ -44,8 +44,8 @@ public class ConexaoDAO {
       return stmt.executeQuery(queryString);
     } catch (SQLException e) {
       System.out.println(e.toString());
-      return null;
     }
+    return null;
   }
 
   public int executeQuery(String queryString) throws SQLException {

@@ -31,8 +31,8 @@ public class Pokemon {
     return id;
   }
 
-  public void setId() {
-    this.id++;
+  public Integer setId() {
+    return this.id++;
   }
 
 

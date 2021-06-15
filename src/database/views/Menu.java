@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import database.ConexaoDAO;
 import database.controllers.PokemonController;
+import database.models.Pokemon;
 
 public class Menu {
   public void inicializar(ConexaoDAO connection) throws SQLException {
@@ -36,20 +37,19 @@ public class Menu {
                   System.out.println(e.toString());
                 }
               case 2:
-//                treinador.listar();
-//                pk.listar();
+                pkController.listar(connection);
                 break;
               case 3:
                 System.out.println("Alterar pokemon");
                 System.out.println("Digite o ID do pokemon que deseja alterar");
                 int id = scan.nextInt();
-//                pk.alterar(id);
+                pkController.alterar(id, connection);
                 break;
               case 4:
                 System.out.println("Excluir pokemon");
                 System.out.println("Digite o ID do pokemon que deseja excluir");
-                int id1 = scan.nextInt();
-//                pk.excluir(id1);
+                int id_pokemon = scan.nextInt();
+                pkController.excluir(id_pokemon, connection);
                 break;
               case 0:
                 break;
@@ -89,5 +89,14 @@ public class Menu {
       }
     }
     scan.close();
+  }
+
+  public void menuPokemon(int id, String nome, String tipo, int geracao) {
+    System.out.println("--------------------------------------");
+    System.out.println("ID do Pokemon: " + id);
+    System.out.println("Nome do Pokemon: " + nome);
+    System.out.println("Tipo do Pokemon: " + tipo);
+    System.out.println("Geracao do Pokemon: " + geracao);
+    System.out.println("--------------------------------------");
   }
 }
