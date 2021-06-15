@@ -1,28 +1,38 @@
 package database.models;
 
-import java.util.*;
-
-public class Pokemon extends Caracteristica {
+public class Pokemon {
 
   private String tipo;
-  private String habilidade;
-  private Double peso;
   private int id;
+  private int geracao;
+  private String nome;
 
-  public Pokemon(int id, String tipo, String habilidade, Double peso) {
+  public Pokemon(int id, String nome, String tipo, Integer geracao) {
     super();
+    this.nome = nome;
     this.id = id;
     this.tipo = tipo;
-    this.habilidade = habilidade;
-    this.peso = peso;
+    this.geracao = geracao;
+  }
+
+  public Pokemon() {
+
+  }
+
+  public String getNome() {
+    return nome;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
   }
 
   public int getId() {
     return id;
   }
 
-  public int setId() {
-    return this.id++;
+  public void setId() {
+    this.id++;
   }
 
 
@@ -34,20 +44,12 @@ public class Pokemon extends Caracteristica {
     this.tipo = tipo;
   }
 
-  public String getHabilidade() {
-    return habilidade;
+  public Integer getGeracao() {
+    return geracao;
   }
 
-  public void setHabilidade(String habilidade) {
-    this.habilidade = habilidade;
-  }
-
-  public Double getPeso() {
-    return peso;
-  }
-
-  public void setPeso(Double peso) {
-    this.peso = peso;
+  public void setGeracao(Integer geracao) {
+    this.geracao = geracao;
   }
 
 

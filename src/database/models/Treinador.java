@@ -1,6 +1,6 @@
 package database.models;
 
-public class Treinador extends Caracteristica {
+public class Treinador  {
   private String regiao;
 
   public Treinador() {
