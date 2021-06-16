@@ -31,7 +31,12 @@ public class Pokemon {
     return id;
   }
 
-  public Integer setId() {
+  public int setIdUpload(Integer id) {
+    return this.id = id;
+  }
+
+
+  public int setId() {
     return this.id++;
   }
 

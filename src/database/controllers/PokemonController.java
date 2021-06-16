@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class PokemonController {
 
   public int excluir(int id, ConexaoDAO connection) throws SQLException {
-    String queryString = "DELETE * FROM Pokemon WHERE pokemon_id = '" + id + "'";
+    String queryString = "DELETE FROM Pokemon WHERE pokemon_id = '" + id + "'";
     try {
       System.out.println("Deletando registro do banco de dados...");
       return connection.executeQuery(queryString);
@@ -56,17 +56,17 @@ public class PokemonController {
     if (type.equals("create")) {
       queryString = "INSERT INTO Pokemon(nome, tipo, geracao) VALUES ('" + pk.getNome() + "','" + pk.getTipo() + "','" + pk.getGeracao() + "')";
     } else {
-      queryString = "UPDATE Pokemon SET nome = '" + pk.getNome() + "' , tipo = '" + pk.getTipo() + "', geracao = '" + pk.getGeracao() + "' WHERE pokemon_id = '" + pk.getId() + "'";
+      queryString = "UPDATE Pokemon SET nome = '" + pk.getNome() + "' , tipo = '" + pk.getTipo() + "', geracao = '" + pk.getGeracao() + "' WHERE pokemon_id = " + pk.getId() + "";
     }
 
     try {
-      System.out.println("type" + type);
       return connection.executeQuery(queryString);
     } catch (SQLException e) {
       System.out.println(e.toString());
       return 0;
     }
   }
+
 
   public void listar(ConexaoDAO connection) throws SQLException {
     String queryString = "SELECT * FROM Pokemon";
@@ -105,6 +105,7 @@ public class PokemonController {
     System.out.println("Digite o novo tipo do pokemon");
     Integer geracao = scan.nextInt();
     pk.setGeracao(geracao);
+    pk.setIdUpload(id);
 
     try {
       this.salvar(pk, connection, type);

@@ -30,12 +30,8 @@ public class Menu {
             opcao = scan.nextInt();
             switch (opcao) {
               case 1:
-                try {
-                  pkController.criar(connection);
-                  break;
-                } catch (SQLException e) {
-                  System.out.println(e.toString());
-                }
+                pkController.criar(connection);
+                break;
               case 2:
                 pkController.listar(connection);
                 break;
