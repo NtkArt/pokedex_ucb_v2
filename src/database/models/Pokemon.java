@@ -1,11 +1,15 @@
 package database.models;
 
+import java.util.ArrayList;
+
 public class Pokemon {
 
   private String tipo;
   private int id;
   private int geracao;
   private String nome;
+  private Treinador treinador;
+
 
   public Pokemon(int id, String nome, String tipo, Integer geracao) {
     super();
@@ -38,6 +42,15 @@ public class Pokemon {
 
   public int setId() {
     return this.id++;
+  }
+
+  public Treinador getTreinador() {
+    return this.treinador;
+  }
+
+
+  public void setTreinador(Treinador treinador) {
+    this.treinador = treinador;
   }
 
 

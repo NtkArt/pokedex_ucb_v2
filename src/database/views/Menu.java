@@ -1,16 +1,19 @@
 package database.views;
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import database.ConexaoDAO;
 import database.controllers.PokemonController;
-import database.models.Pokemon;
+import database.controllers.TreinadorController;
+import database.models.Treinador;
 
 public class Menu {
   public void inicializar(ConexaoDAO connection) throws SQLException {
-    PokemonController pkController = new PokemonController();
     Scanner scan = new Scanner(System.in);
+    PokemonController pkController = new PokemonController();
+    TreinadorController trController = new TreinadorController();
     int opcao = -1;
     while (opcao != 0) {
       System.out.println("------Menu-------");
@@ -61,11 +64,25 @@ public class Menu {
           while (opcao != 0) {
             System.out.println("--------Treinador----------");
             System.out.println("1- Cadastrar Treinador");
+            System.out.println("2- Atualizar Treinador");
+            System.out.println("3- Listar Treinador");
+            System.out.println("4- Remover Treinador");
             System.out.println("0- Retornar ao menu anterior");
             opcao = scan.nextInt();
             switch (opcao) {
               case 1:
-//                treinador.cadastrar();
+                trController.criar(connection);
+                break;
+              case 2:
+                int id_treinador = scan.nextInt();
+                trController.alterar(id_treinador, connection);
+                break;
+              case 3:
+                trController.listar(connection);
+                break;
+              case 4:
+                int id_treinador1 = scan.nextInt();
+                trController.excluir(id_treinador1, connection);
                 break;
               case 0:
                 break;
@@ -87,12 +104,26 @@ public class Menu {
     scan.close();
   }
 
-  public void menuPokemon(int id, String nome, String tipo, int geracao) {
+  public void menuPokemon(int id, String nome, String tipo, int geracao, Treinador tr) {
     System.out.println("--------------------------------------");
     System.out.println("ID do Pokemon: " + id);
     System.out.println("Nome do Pokemon: " + nome);
     System.out.println("Tipo do Pokemon: " + tipo);
     System.out.println("Geracao do Pokemon: " + geracao);
+    System.out.println("---------------------------------------");
+    System.out.println("ID do Treinador do Pokemon " + tr.getId());
+    System.out.println("Nome do Treinador do Pokemon " + tr.getNome());
+    System.out.println("Regiao do Treinador do Pokemon " + tr.getRegiao());
+    System.out.println("--------------------------------------");
+  }
+
+
+  public void menuTreinador(int id, String nome, String regiao, Array pokemons) {
+    System.out.println("--------------------------------------");
+    System.out.println("ID do Treinador: " + id);
+    System.out.println("Nome do Treinador: " + nome);
+    System.out.println("Regiao do Treinador: " + regiao);
+    System.out.println("Pokemons do Treinador: " + pokemons);
     System.out.println("--------------------------------------");
   }
 }

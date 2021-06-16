@@ -2,6 +2,8 @@ package database.controllers;
 
 import database.models.Pokemon;
 import database.ConexaoDAO;
+import database.models.Treinador;
+import database.models.UsuarioHasPokemon;
 import database.views.Menu;
 
 import java.sql.ResultSet;
@@ -26,7 +28,9 @@ public class PokemonController {
   public void criar(ConexaoDAO connection) throws SQLException {
     Scanner scan = new Scanner(System.in);
     Pokemon pokemon = new Pokemon();
+    Treinador treinador = new Treinador();
     String type = "create";
+    UsuarioHasPokemon up = new UsuarioHasPokemon();
 
 
     System.out.println("----------------Catalogar pokemons--------------");
@@ -42,6 +46,7 @@ public class PokemonController {
     Integer geracao = scan.nextInt();
     pokemon.setGeracao(geracao);
     pokemon.setId();
+    pokemon.setTreinador(treinador);
 
     try {
       this.salvar(pokemon, connection, type);
@@ -71,6 +76,7 @@ public class PokemonController {
   public void listar(ConexaoDAO connection) throws SQLException {
     String queryString = "SELECT * FROM Pokemon";
     Menu menu = new Menu();
+    Treinador tr = new Treinador();
     ResultSet rs = connection.search(queryString);
     try {
       while (rs.next()) {
@@ -78,7 +84,7 @@ public class PokemonController {
         String nome = rs.getString("nome");
         String tipo = rs.getString("tipo");
         int geracao = rs.getInt("geracao");
-        menu.menuPokemon(id, nome, tipo, geracao);
+        menu.menuPokemon(id, nome, tipo, geracao, tr);
       }
     } catch (Exception e) {
       System.out.println(e.toString());
@@ -102,7 +108,7 @@ public class PokemonController {
     String tipo = scan.nextLine();
     pk.setTipo(tipo);
     //
-    System.out.println("Digite o novo tipo do pokemon");
+    System.out.println("Digite o nova geracao do pokemon");
     Integer geracao = scan.nextInt();
     pk.setGeracao(geracao);
     pk.setIdUpload(id);
