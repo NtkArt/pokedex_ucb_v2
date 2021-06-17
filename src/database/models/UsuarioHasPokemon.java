@@ -4,10 +4,23 @@ public class UsuarioHasPokemon {
 
   private int pokemon_treinador_id;
   private int treinador_pokemon_id;
-
+  private int id;
 
   public UsuarioHasPokemon() {
+  }
+
+  public UsuarioHasPokemon(int id) {
     super();
+    this.id = id;
+  }
+
+
+  public int getId() {
+    return this.id;
+  }
+
+  public void setId() {
+    this.id++;
   }
 
   public void setPokemonTreinadorId(int pokemon_treinador_id) {

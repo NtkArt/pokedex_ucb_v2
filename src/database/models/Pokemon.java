@@ -44,16 +44,6 @@ public class Pokemon {
     return this.id++;
   }
 
-  public Treinador getTreinador() {
-    return this.treinador;
-  }
-
-
-  public void setTreinador(Treinador treinador) {
-    this.treinador = treinador;
-  }
-
-
   public String getTipo() {
     return tipo;
   }

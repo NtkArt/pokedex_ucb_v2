@@ -3,6 +3,8 @@ package database.controllers;
 import database.models.Pokemon;
 import database.models.Treinador;
 import database.ConexaoDAO;
+import database.models.UsuarioHasPokemon;
+import database.utils.ClearBuffer;
 import database.views.Menu;
 
 import java.sql.Array;
@@ -15,11 +17,11 @@ public class TreinadorController {
 
   private int salvar(Treinador treinador, ConexaoDAO connection, String type) throws SQLException {
     String queryString = "";
-
     if (type.equals("create")) {
       queryString = "INSERT INTO Treinador(nome, regiao) VALUES ('" + treinador.getNome() + "','" + treinador.getRegiao() + "')";
+
     } else {
-      queryString = "UPDATE Treinador SET nome = '" + treinador.getNome() + "' , regiao = '" + treinador.getRegiao() + "' WHERE treinador_id = " + treinador.getId() + "";
+      queryString = "UPDATE Treinador SET nome = '" + treinador.getNome() + "' , regiao = '" + treinador.getRegiao() + "' WHERE id = " + treinador.getId() + "";
     }
 
 
@@ -32,16 +34,17 @@ public class TreinadorController {
   }
 
   public void listar(ConexaoDAO connection) throws SQLException {
-    String queryString = "SELECT * FROM Treinador";
+    String queryString = "SELECT * FROM Treinador ";
+    UsuarioHasPokemonController upController = new UsuarioHasPokemonController();
     Menu menu = new Menu();
     ResultSet rs = connection.search(queryString);
     try {
       while (rs.next()) {
-        int id = rs.getInt("treinador_id");
+        int id = rs.getInt("id");
         String nome = rs.getString("nome");
         String regiao = rs.getString("regiao");
-        Array pokemons = rs.getArray("pokemons");
-        menu.menuTreinador(id, nome, regiao, pokemons);
+        menu.menuTreinador(id, nome, regiao);
+//        upController.listar(connection);
       }
     } catch (Exception e) {
       System.out.println(e.toString());
@@ -51,10 +54,12 @@ public class TreinadorController {
   public void criar(ConexaoDAO connection) {
     Scanner scan = new Scanner(System.in);
     Treinador treinador = new Treinador();
+    UsuarioHasPokemon userPokemon = new UsuarioHasPokemon();
+    UsuarioHasPokemonController userPokemonController = new UsuarioHasPokemonController();
     String type = "create";
 
 
-    System.out.println("----------------Catalogar pokemons--------------");
+    System.out.println("----------------Inscrever Treinador--------------");
     System.out.println("Digite o nome do treinador que deseja adicionar na pokedex");
     String nome = scan.nextLine();
     treinador.setNome(nome);
@@ -62,13 +67,18 @@ public class TreinadorController {
     System.out.println("Digite a regiao desse treinador");
     String regiao = scan.nextLine();
     treinador.setRegiao(regiao);
+    treinador.setId();
     //
-
     System.out.println("Digite o ID do pokemon que deseja atribuir a esse treinador");
     int idPokemon = scan.nextInt();
+    new ClearBuffer(scan);
+    userPokemon.setId();
+    userPokemon.setTreinadorPokemonId(idPokemon);
+    userPokemon.setPokemonTreinadorId(treinador.getId());
 
     try {
       this.salvar(treinador, connection, type);
+      userPokemonController.salvarUsuarioPokemon(userPokemon, connection);
     } catch (Exception e) {
       System.out.println(e.toString());
     }
@@ -76,7 +86,7 @@ public class TreinadorController {
 
 
   public int excluir(int id, ConexaoDAO connection) {
-    String queryString = "DELETE FROM Treinador WHERE treinador_id = '" + id + "'";
+    String queryString = "DELETE FROM Treinador WHERE id = '" + id + "'";
     try {
       System.out.println("Deletando registro do banco de dados...");
       return connection.executeQuery(queryString);
@@ -95,7 +105,7 @@ public class TreinadorController {
     Treinador tr = new Treinador();
 
 
-    System.out.println("----------------Atualizar Pokemon--------------");
+    System.out.println("----------------Atualizar Treinador--------------");
     System.out.println("Treinador a ser atualizado tem o ID igual a: " + id);
     //
     System.out.println("Digite o novo nome do treinador");

@@ -8,14 +8,12 @@ public class Treinador {
   private String nome;
   private String regiao;
   private int id;
-  private ArrayList<Pokemon> pokemon;
 
-  public Treinador(int id, String regiao, String nome, ArrayList<Pokemon> pk) {
+  public Treinador(int id, String regiao, String nome) {
     super();
     this.id = id;
     this.regiao = regiao;
     this.nome = nome;
-    this.pokemon = pk;
   }
 
   public Treinador() {
@@ -43,15 +41,6 @@ public class Treinador {
   public void setNome(String nome) {
     this.nome = nome;
   }
-
-  public ArrayList<Pokemon> getPokemon() {
-    return this.pokemon;
-  }
-
-  public void setPokemon(ArrayList<Pokemon> pk) {
-    this.pokemon = pk;
-  }
-
 
   public String getRegiao() {
     return regiao;

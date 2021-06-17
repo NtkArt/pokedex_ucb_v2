@@ -1,19 +1,21 @@
 package database.views;
 
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import database.ConexaoDAO;
 import database.controllers.PokemonController;
 import database.controllers.TreinadorController;
+import database.controllers.UsuarioHasPokemonController;
 import database.models.Treinador;
+import database.utils.ClearBuffer;
 
 public class Menu {
   public void inicializar(ConexaoDAO connection) throws SQLException {
     Scanner scan = new Scanner(System.in);
     PokemonController pkController = new PokemonController();
     TreinadorController trController = new TreinadorController();
+
     int opcao = -1;
     while (opcao != 0) {
       System.out.println("------Menu-------");
@@ -21,6 +23,7 @@ public class Menu {
       System.out.println("2- Treinador");
       System.out.println("0- Encerrar Programa");
       opcao = scan.nextInt();
+      new ClearBuffer(scan);
       switch (opcao) {
         case 1:
           while (opcao != 0) {
@@ -43,12 +46,14 @@ public class Menu {
                 System.out.println("Digite o ID do pokemon que deseja alterar");
                 int id = scan.nextInt();
                 pkController.alterar(id, connection);
+                new ClearBuffer(scan);
                 break;
               case 4:
                 System.out.println("Excluir pokemon");
                 System.out.println("Digite o ID do pokemon que deseja excluir");
                 int id_pokemon = scan.nextInt();
                 pkController.excluir(id_pokemon, connection);
+                new ClearBuffer(scan);
                 break;
               case 0:
                 break;
@@ -69,13 +74,18 @@ public class Menu {
             System.out.println("4- Remover Treinador");
             System.out.println("0- Retornar ao menu anterior");
             opcao = scan.nextInt();
+            new ClearBuffer(scan);
             switch (opcao) {
               case 1:
                 trController.criar(connection);
                 break;
               case 2:
-                int id_treinador = scan.nextInt();
+                System.out.println("Alterar treinador");
+                System.out.println("Digite o ID do treinador que deseja alterar");
+                int id_treinador;
+                id_treinador = scan.nextInt();
                 trController.alterar(id_treinador, connection);
+                new ClearBuffer(scan);
                 break;
               case 3:
                 trController.listar(connection);
@@ -83,6 +93,7 @@ public class Menu {
               case 4:
                 int id_treinador1 = scan.nextInt();
                 trController.excluir(id_treinador1, connection);
+                new ClearBuffer(scan);
                 break;
               case 0:
                 break;
@@ -104,7 +115,7 @@ public class Menu {
     scan.close();
   }
 
-  public void menuPokemon(int id, String nome, String tipo, int geracao, Treinador tr) {
+  public void menuPokemon(int id, String nome, String tipo, int geracao, Treinador tr, ConexaoDAO connection) {
     System.out.println("--------------------------------------");
     System.out.println("ID do Pokemon: " + id);
     System.out.println("Nome do Pokemon: " + nome);
@@ -118,12 +129,19 @@ public class Menu {
   }
 
 
-  public void menuTreinador(int id, String nome, String regiao, Array pokemons) {
+  public void menuTreinador(int id, String nome, String regiao) {
     System.out.println("--------------------------------------");
     System.out.println("ID do Treinador: " + id);
     System.out.println("Nome do Treinador: " + nome);
     System.out.println("Regiao do Treinador: " + regiao);
-    System.out.println("Pokemons do Treinador: " + pokemons);
+    System.out.println("--------------------------------------");
+  }
+
+  public void menuUpController(int id, String nome, String regiao) {
+    System.out.println("--------------------------------------");
+    System.out.println("ID do Treinador: " + id);
+    System.out.println("Nome do Treinador: " + nome);
+    System.out.println("Regiao do Treinador: " + regiao);
     System.out.println("--------------------------------------");
   }
 }

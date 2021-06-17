@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class PokemonController {
 
   public int excluir(int id, ConexaoDAO connection) throws SQLException {
-    String queryString = "DELETE FROM Pokemon WHERE pokemon_id = '" + id + "'";
+    String queryString = "DELETE FROM Pokemon WHERE id = '" + id + "'";
     try {
       System.out.println("Deletando registro do banco de dados...");
       return connection.executeQuery(queryString);
@@ -28,9 +28,8 @@ public class PokemonController {
   public void criar(ConexaoDAO connection) throws SQLException {
     Scanner scan = new Scanner(System.in);
     Pokemon pokemon = new Pokemon();
-    Treinador treinador = new Treinador();
     String type = "create";
-    UsuarioHasPokemon up = new UsuarioHasPokemon();
+    UsuarioHasPokemon userPokemon = new UsuarioHasPokemon();
 
 
     System.out.println("----------------Catalogar pokemons--------------");
@@ -46,7 +45,7 @@ public class PokemonController {
     Integer geracao = scan.nextInt();
     pokemon.setGeracao(geracao);
     pokemon.setId();
-    pokemon.setTreinador(treinador);
+    userPokemon.setPokemonTreinadorId(pokemon.getId());
 
     try {
       this.salvar(pokemon, connection, type);
@@ -61,7 +60,7 @@ public class PokemonController {
     if (type.equals("create")) {
       queryString = "INSERT INTO Pokemon(nome, tipo, geracao) VALUES ('" + pk.getNome() + "','" + pk.getTipo() + "','" + pk.getGeracao() + "')";
     } else {
-      queryString = "UPDATE Pokemon SET nome = '" + pk.getNome() + "' , tipo = '" + pk.getTipo() + "', geracao = '" + pk.getGeracao() + "' WHERE pokemon_id = " + pk.getId() + "";
+      queryString = "UPDATE Pokemon SET nome = '" + pk.getNome() + "' , tipo = '" + pk.getTipo() + "', geracao = '" + pk.getGeracao() + "' WHERE id = " + pk.getId() + "";
     }
 
     try {
@@ -80,11 +79,11 @@ public class PokemonController {
     ResultSet rs = connection.search(queryString);
     try {
       while (rs.next()) {
-        int id = rs.getInt("pokemon_id");
+        int id = rs.getInt("id");
         String nome = rs.getString("nome");
         String tipo = rs.getString("tipo");
         int geracao = rs.getInt("geracao");
-        menu.menuPokemon(id, nome, tipo, geracao, tr);
+        menu.menuPokemon(id, nome, tipo, geracao, tr, connection);
       }
     } catch (Exception e) {
       System.out.println(e.toString());
